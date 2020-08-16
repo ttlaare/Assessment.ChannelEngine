@@ -1,5 +1,6 @@
 ﻿using Assessment.ChannelEngine.BusinessLogic.Models;
 using Assessment.ChannelEngine.BusinessLogic.Models.Api;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,6 +10,9 @@ namespace Assessment.ChannelEngine.BusinessLogic.Helpers
     {
         public static List<ProductDto> GetTop5ProductsSold(this CollectionOfMerchantOrderResponse collectionOfMerchantOrderResponse)
         {
+            if (collectionOfMerchantOrderResponse?.Content is null)
+                throw new ArgumentNullException(nameof(collectionOfMerchantOrderResponse));
+
             var lines = collectionOfMerchantOrderResponse.Content.SelectMany(c => c.Lines);
             return lines
                 .GroupBy(

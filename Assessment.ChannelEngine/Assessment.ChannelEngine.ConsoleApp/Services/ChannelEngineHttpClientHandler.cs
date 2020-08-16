@@ -1,6 +1,7 @@
 ﻿using Assessment.ChannelEngine.BusinessLogic.Interfaces;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Assessment.ChannelEngine.ConsoleApp.Services
@@ -25,6 +26,13 @@ namespace Assessment.ChannelEngine.ConsoleApp.Services
 
             var products = await productsFromOrdersHandler.GetTop5ProductsSoldFromOrders(inProgressOrders);
 
+            if (products is null || !products.Any())
+            {
+                Console.WriteLine("No Products to display. Press a key to exit");
+                Console.ReadKey();
+                return;
+            }
+
             Console.WriteLine("Top Products sold:");
             foreach (var product in products)
             {
@@ -32,7 +40,8 @@ namespace Assessment.ChannelEngine.ConsoleApp.Services
                 Console.WriteLine($"Merchant Product No: {product.MerchantProductNo}");
                 Console.WriteLine($"Name: {product.Name}");
                 Console.WriteLine($"Ean: {product.EAN}");
-                Console.WriteLine($"Total Quantity sold: {product.TotalQuantity}");
+                Console.WriteLine($"Total Quantity Sold: {product.TotalQuantity}");
+                Console.WriteLine($"Stock: {product.Stock}");
             }
             Console.WriteLine("------------------------------");
 

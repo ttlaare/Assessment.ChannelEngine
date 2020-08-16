@@ -3,6 +3,7 @@ using Assessment.ChannelEngine.BusinessLogic.Models.Api;
 using Assessment.ChannelEngine.Tests.Builders;
 using FluentAssertions;
 using NUnit.Framework;
+using System;
 
 namespace Assessment.ChannelEngine.Tests.UnitTests.BusinessLogic.Helpers
 {
@@ -43,6 +44,26 @@ namespace Assessment.ChannelEngine.Tests.UnitTests.BusinessLogic.Helpers
 
             //Assert
             result.Should().BeEquivalentTo(expected, option => option.WithStrictOrdering());
+        }
+
+        [Test]
+        public void GetGetTop5ProductsSold_Given_Null_Should_ThrowArgumentNullException()
+        {
+            //Arrange
+            CollectionOfMerchantOrderResponse sut = null;
+
+            //Act & Assert
+            sut.Invoking(s => s.GetTop5ProductsSold()).Should().Throw<ArgumentNullException>();
+        }
+
+        [Test]
+        public void GetGetTop5ProductsSold_Given_ContentIsNull_Should_ThrowArgumentNullException()
+        {
+            //Arrange
+            var sut = new CollectionOfMerchantOrderResponse() { Content = null };
+
+            //Act & Assert
+            sut.Invoking(s => s.GetTop5ProductsSold()).Should().Throw<ArgumentNullException>();
         }
     }
 }
