@@ -17,7 +17,15 @@ namespace Assessment.ChannelEngine.BusinessLogic.Services
         {
             this.channelEngineHttpClient = channelEngineHttpClient ?? throw new ArgumentNullException(nameof(channelEngineHttpClient));
         }
-        public async Task<List<ProductDto>> GetTop5ProductsSoldFromOrders(CollectionOfMerchantOrderResponse collectionOfMerchantOrderResponse)
+        public Task<List<ProductDto>> GetTop5ProductsSoldFromOrders(CollectionOfMerchantOrderResponse collectionOfMerchantOrderResponse)
+        {
+            if (collectionOfMerchantOrderResponse is null)
+                throw new ArgumentNullException(nameof(collectionOfMerchantOrderResponse));
+
+            return GetTop5ProductsSoldFromOrdersInternal(collectionOfMerchantOrderResponse); //https://rules.sonarsource.com/csharp/RSPEC-4457
+        }
+
+        private async Task<List<ProductDto>> GetTop5ProductsSoldFromOrdersInternal(CollectionOfMerchantOrderResponse collectionOfMerchantOrderResponse)
         {
             var products = collectionOfMerchantOrderResponse.GetTop5ProductsSold();
             var productsResponse = await channelEngineHttpClient.GetProducts(products.Select(p => p.MerchantProductNo).ToList());

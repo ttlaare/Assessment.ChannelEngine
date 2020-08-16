@@ -5,6 +5,7 @@ using Assessment.ChannelEngine.Tests.Builders;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -58,6 +59,18 @@ namespace Assessment.ChannelEngine.Tests.UnitTests.BusinessLogic.Services
 
             //Assert
             result.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        }
+
+        [Test]
+        public async Task GetTop5ProductsSoldFromOrders_Given_Null_Should_ThrowArgumentNullException()
+        {
+            //Arrange
+            var mockedchannelEngineHttpClient = new Mock<IChannelEngineHttpClient>();
+
+            var sut = new ProductsFromOrdersHandler(mockedchannelEngineHttpClient.Object);
+
+            //Act & Assert
+            await sut.Invoking(s => s.GetTop5ProductsSoldFromOrders(null)).Should().ThrowAsync<ArgumentNullException>();
         }
     }
 }

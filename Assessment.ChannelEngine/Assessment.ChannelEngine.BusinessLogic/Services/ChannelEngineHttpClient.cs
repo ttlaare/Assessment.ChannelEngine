@@ -44,7 +44,6 @@ namespace Assessment.ChannelEngine.BusinessLogic.Services
             var request = new HttpRequestMessage(HttpMethod.Patch,
                 $"api/v2/products/{merchantProductNo}?{ApiKey}");
 
-
             request.Content = new StringContent(serializedChangeSet);
             request.Content.Headers.ContentType =
                 new MediaTypeHeaderValue("application/json-patch+json");
