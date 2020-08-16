@@ -12,10 +12,20 @@ namespace Assessment.ChannelEngine.ConsoleApp
     {
         static async Task Main(string[] args)
         {
-            var serviceCollection = new ServiceCollection();
-            ConfigureServices(serviceCollection);
-            var serviceProvider = serviceCollection.BuildServiceProvider();
-            await serviceProvider.GetService<ChannelEngineHttpClientHandler>().Run();
+            try
+            {
+                var serviceCollection = new ServiceCollection();
+                ConfigureServices(serviceCollection);
+                var serviceProvider = serviceCollection.BuildServiceProvider();
+                await serviceProvider.GetService<ChannelEngineHttpClientHandler>().Run();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error occurred: {ex}");
+                Console.WriteLine("Press a key to exit");
+                Console.ReadKey();
+                throw;
+            }
         }
 
         private static void ConfigureServices(IServiceCollection serviceCollection)
@@ -25,10 +35,11 @@ namespace Assessment.ChannelEngine.ConsoleApp
                 client.BaseAddress = new Uri("https://api-dev.channelengine.net");
                 client.Timeout = new TimeSpan(0, 0, 30);
                 client.DefaultRequestHeaders.Accept
-                                            .Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    .Add(new MediaTypeWithQualityHeaderValue("application/json"));
             });
 
             serviceCollection.AddScoped<IChannelEngineHttpClient, ChannelEngineHttpClient>();
+            serviceCollection.AddScoped<IProductsFromOrdersHandler, ProductsFromOrdersHandler>();
             serviceCollection.AddScoped<ChannelEngineHttpClientHandler>();
         }
     }
