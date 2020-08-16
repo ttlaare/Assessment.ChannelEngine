@@ -7,6 +7,6 @@ namespace Assessment.ChannelEngine.BusinessLogic.Interfaces
 {
     public interface IProductsFromOrdersHandler
     {
-        Task<List<ProductStatistics>> GetTop5ProductsSoldFromOrders(CollectionOfMerchantOrderResponse collectionOfMerchantOrderResponse);
+        Task<List<ProductDto>> GetTop5ProductsSoldFromOrders(CollectionOfMerchantOrderResponse collectionOfMerchantOrderResponse);
     }
 }
