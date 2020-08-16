@@ -17,23 +17,24 @@ namespace Assessment.ChannelEngine.BusinessLogic.Services
         {
             this.channelEngineHttpClient = channelEngineHttpClient ?? throw new ArgumentNullException(nameof(channelEngineHttpClient));
         }
-        public async Task<List<ProductStatistics>> GetTop5ProductsSoldFromOrders(CollectionOfMerchantOrderResponse collectionOfMerchantOrderResponse)
+        public async Task<List<ProductDto>> GetTop5ProductsSoldFromOrders(CollectionOfMerchantOrderResponse collectionOfMerchantOrderResponse)
         {
-            var productsStatistics = collectionOfMerchantOrderResponse.GetTop5ProductsSold();
-            var productsResponse = await channelEngineHttpClient.GetProducts(productsStatistics.Select(p => p.MerchantProductNo).ToList());
-            return MapProductsResponseToProductsStatistics(productsResponse, productsStatistics);
+            var products = collectionOfMerchantOrderResponse.GetTop5ProductsSold();
+            var productsResponse = await channelEngineHttpClient.GetProducts(products.Select(p => p.MerchantProductNo).ToList());
+            return MapProductsResponseToProductDtos(productsResponse, products);
         }
 
-        private List<ProductStatistics> MapProductsResponseToProductsStatistics(CollectionOfMerchantProductResponse productsResponse, List<ProductStatistics> productsStatistics)
+        private List<ProductDto> MapProductsResponseToProductDtos(CollectionOfMerchantProductResponse productsResponse, List<ProductDto> products)
         {
-            MerchantProductResponse product;
-            foreach (var productStatistics in productsStatistics)
+            MerchantProductResponse productResponse;
+            foreach (var product in products)
             {
-                product = productsResponse.Content.Single(p => p.MerchantProductNo == productStatistics.MerchantProductNo);
-                productStatistics.Name = product.Name;
-                productStatistics.EAN = product.Ean;
+                productResponse = productsResponse.Content.Single(p => p.MerchantProductNo == product.MerchantProductNo);
+                product.Name = productResponse.Name;
+                product.EAN = productResponse.Ean;
+                product.Stock = productResponse.Stock;
             }
-            return productsStatistics;
+            return products;
         }
     }
 }

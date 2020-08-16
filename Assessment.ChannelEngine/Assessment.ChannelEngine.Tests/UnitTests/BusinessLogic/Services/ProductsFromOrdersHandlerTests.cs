@@ -13,12 +13,12 @@ namespace Assessment.ChannelEngine.Tests.UnitTests.BusinessLogic.Services
     internal class ProductsFromOrdersHandlerTests
     {
         [Test]
-        public async Task GetTop5ProductsSoldFromOrders_Should_ReturnListOfProductStatistics()
+        public async Task GetTop5ProductsSoldFromOrders_Should_ReturnListOfProductDtos()
         {
-            var expected = new ProductsStatisticsBuilder()
-                            .WithProductStatisticsIs("ProductNo1", 200,"Name1","EAN1")
-                            .WithProductStatisticsIs("ProductNo2", 150, "Name2", "EAN2")
-                            .WithProductStatisticsIs("ProductNo3", 50, "Name3", "EAN3")
+            var expected = new ProductDtosBuilder()
+                            .WithProductDtoIs("ProductNo1", 200,"Name1","EAN1",300)
+                            .WithProductDtoIs("ProductNo2", 150, "Name2", "EAN2",200)
+                            .WithProductDtoIs("ProductNo3", 50, "Name3", "EAN3",50)
                             .Build();
 
             var lines1 = new MerchantOrderLineResponsesBuilder()
@@ -41,9 +41,9 @@ namespace Assessment.ChannelEngine.Tests.UnitTests.BusinessLogic.Services
             var collectionMerchantOrderResponse = new CollectionOfMerchantOrderResponse() { Content = merchantOrderResponses };
 
             var productRespones = new MerchantProductResponsesBuilder()
-                                .WithMerchantProductResponseIs("ProductNo3", "Name3", "EAN3")
-                                .WithMerchantProductResponseIs("ProductNo2", "Name2", "EAN2")
-                                .WithMerchantProductResponseIs("ProductNo1", "Name1", "EAN1")
+                                .WithMerchantProductResponseIs("ProductNo3", "Name3", "EAN3", 50)
+                                .WithMerchantProductResponseIs("ProductNo2", "Name2", "EAN2", 200)
+                                .WithMerchantProductResponseIs("ProductNo1", "Name1", "EAN1", 300)
                                 .Build();
 
             var collectionMerchantProductResponse = new CollectionOfMerchantProductResponse() { Content = productRespones };

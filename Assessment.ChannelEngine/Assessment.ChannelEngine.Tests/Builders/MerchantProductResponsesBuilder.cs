@@ -7,13 +7,14 @@ namespace Assessment.ChannelEngine.Tests.Builders
     {
         private List<MerchantProductResponse> merchantProductResponses = new List<MerchantProductResponse>();
 
-        public MerchantProductResponsesBuilder WithMerchantProductResponseIs(string merchantProductNo, string name, string ean)
+        public MerchantProductResponsesBuilder WithMerchantProductResponseIs(string merchantProductNo, string name, string ean, int stock)
         {
             merchantProductResponses.Add(new MerchantProductResponse
             {
                 MerchantProductNo = merchantProductNo,
                 Name = name,
-                Ean = ean
+                Ean = ean,
+                Stock = stock
             });
             return this;
         }

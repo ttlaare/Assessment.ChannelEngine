@@ -12,10 +12,10 @@ namespace Assessment.ChannelEngine.Tests.UnitTests.BusinessLogic.Helpers
         public void GetGetTop5ProductsSold_Should_ReturnTop5ProductsSold()
         {
             //Arrange
-            var expected = new ProductsStatisticsBuilder()
-                .WithProductStatisticsIs("ProductNo1", 200)
-                .WithProductStatisticsIs("ProductNo2", 150)
-                .WithProductStatisticsIs("ProductNo3", 50)
+            var expected = new ProductDtosBuilder()
+                .WithProductDtoIs("ProductNo1", 200)
+                .WithProductDtoIs("ProductNo2", 150)
+                .WithProductDtoIs("ProductNo3", 50)
 
                 .Build();
 
